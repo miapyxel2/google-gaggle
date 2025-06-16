@@ -18,6 +18,6 @@
   dollPrototype: MobKoboldPlayerDummy
   skinColoration: Hues
   defaultSkinTone: "#34a223"
-  maleFirstNames: names_reptilian_male
+  maleFirstNames:
   femaleFirstNames: names_reptilian_female
   naming: FirstDashFirst
