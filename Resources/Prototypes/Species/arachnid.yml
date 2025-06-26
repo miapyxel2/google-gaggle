@@ -8,9 +8,9 @@
   markingLimits: MobArachnidMarkingLimits
   dollPrototype: MobArachnidDummy
   skinColoration: Hues
-  maleFirstNames: names_arachnid_first
-  femaleFirstNames: names_arachnid_first
-  lastNames: names_arachnid_last
+  maleFirstNames: NamesArachnidFirst
+  femaleFirstNames: NamesArachnidFirst
+  lastNames: NamesArachnidLast
   sexes:
   - Unsexed
 
@@ -19,7 +19,6 @@
   sprites:
     Head: MobArachnidHead
     Snout: MobHumanoidAnyMarking
-    Undergarments: MobHumanoidAnyMarking
     Chest: MobArachnidTorso
     HeadTop: MobHumanoidAnyMarking
     HeadSide: MobHumanoidAnyMarking
@@ -61,9 +60,6 @@
       points: 1
       required: true
       defaultMarkings: [ ArachnidCheliceraeDownwards ]
-    Undergarments: # google's gaggle land
-      points: 4
-      required: false
     Chest:
       points: 1
       required: false
