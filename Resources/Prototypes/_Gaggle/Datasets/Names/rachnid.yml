@@ -1,0 +1,11 @@
+- type: localizedDataset
+  id: NamesRachnidFirst
+  values:
+    prefix: names-rachnid-first-dataset-
+    count: 14
+
+- type: localizedDataset
+  id: NamesRachnidLast
+  values:
+    prefix: names-rachnid-last-dataset-
+    count: 15

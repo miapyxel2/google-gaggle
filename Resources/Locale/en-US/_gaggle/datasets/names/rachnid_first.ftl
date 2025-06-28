@@ -1,0 +1,14 @@
+names-rachnid-first-dataset-1 = Terr
+names-rachnid-first-dataset-2 = Tox
+names-rachnid-first-dataset-3 = Let
+names-rachnid-first-dataset-4 = Doc
+names-rachnid-first-dataset-5 = Lir
+names-rachnid-first-dataset-6 = Min
+names-rachnid-first-dataset-7 = Eng
+names-rachnid-first-dataset-8 = Cap
+names-rachnid-first-dataset-9 = Shu
+names-rachnid-first-dataset-10 = Per
+names-rachnid-first-dataset-11 = Ceh
+names-rachnid-first-dataset-12 = Curt
+names-rachnid-first-dataset-13 = Smit
+names-rachnid-first-dataset-14 = Chet

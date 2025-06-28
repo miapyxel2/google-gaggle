@@ -8,9 +8,9 @@
   markingLimits: MobDionaMarkingLimits
   dollPrototype: MobDionaDummy
   skinColoration: Hues
-  maleFirstNames: DionaFirst
-  femaleFirstNames: DionaFirst
-  lastNames: DionaLast
+  maleFirstNames: NamesDionaFirst
+  femaleFirstNames: NamesDionaFirst
+  lastNames: NamesDionaLast
   naming: TheFirstofLast
 
 - type: speciesBaseSprites
@@ -44,7 +44,7 @@
     HeadSide:
       points: 1
       required: false
-    Undergarments: # google's gaggle land
+    Undergarments: # googles gaggle land
       points: 4
       required: false
     Chest:
