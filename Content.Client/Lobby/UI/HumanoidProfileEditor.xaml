@@ -90,7 +90,7 @@
                             </BoxContainer>
                             <!-- Height -->
                             <BoxContainer HorizontalExpand="True">
-                                <Label Text="{Loc 'humanoid-profile-editor-height-label'}" />
+                                <Label Text="{Loc 'humanoid-profile-editor-height-label'}" MinSize="75 0" />
                                 <Control HorizontalExpand="True"/>
                                 <Slider HorizontalExpand="True" Name="HeightSlider" MinValue="90" MaxValue="244" Value="170" />
                                 <Label Name="Height" MinSize="50 0" Text="170" />
@@ -99,7 +99,7 @@
                             </BoxContainer>
                             <!-- Width -->
                             <BoxContainer HorizontalExpand="True">
-                                <Label Text="{Loc 'humanoid-profile-editor-width-label'}" />
+                                <Label Text="{Loc 'humanoid-profile-editor-width-label'}" MinSize="75 0" />
                                 <Control HorizontalExpand="True"/>
                                 <Slider HorizontalExpand="True" Name="WidthSlider" MinValue="52" MaxValue="144" Value="100" />
                                 <Label Name="Width" MinSize="50 0" Text="100" />

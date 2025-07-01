@@ -156,6 +156,20 @@ public sealed partial class SpeciesPrototype : IPrototype
     /// </summary>
     [DataField]
     public int DefaultWidth = 100;
+
+    /// <summary>
+    ///     The height of a species's sprite from bottom of feet to top of head, used in scale calculations.
+    ///     Don't modify unless the species's sprite is drastically different, like Impstation's Grey or Kobold/Monkey Players.
+    /// </summary>
+    [DataField]
+    public int SpriteHeight = 29;
+
+    /// <summary>
+    ///     The width of a species's sprite from the sides, used in scale calculations.
+    ///     Don't modify unless the species's sprite is drastically different, like Impstation's Grey or Kobold/Monkey Players.
+    /// </summary>
+    [DataField]
+    public int SpriteWidth = 17;
 }
 
 public enum SpeciesNaming : byte

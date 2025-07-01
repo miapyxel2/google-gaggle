@@ -7,6 +7,12 @@
   markingLimits: MobHumanMarkingLimits
   dollPrototype: MobMonkeyPlayerDummy
   skinColoration: TintedHues
+  spriteHeight: 20
+  spriteWidth: 13
+  defaultHeight: 126
+  defaultWidth: 76
+  maxHeight: 152
+  maxWidth: 100
 
 - type: species
   id: KoboldPlayer
@@ -21,3 +27,9 @@
   maleFirstNames: names_reptilian_male
   femaleFirstNames: names_reptilian_female
   naming: FirstDashFirst
+  spriteHeight: 20
+  spriteWidth: 13
+  defaultHeight: 126
+  defaultWidth: 76
+  maxHeight: 152
+  maxWidth: 100
