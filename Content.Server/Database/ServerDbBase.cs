@@ -249,6 +249,8 @@ namespace Content.Server.Database
                 profile.Age,
                 sex,
                 gender,
+                profile.Height,
+                profile.Width,
                 new HumanoidCharacterAppearance
                 (
                     profile.HairName,
@@ -287,6 +289,8 @@ namespace Content.Server.Database
             profile.Age = humanoid.Age;
             profile.Sex = humanoid.Sex.ToString();
             profile.Gender = humanoid.Gender.ToString();
+            profile.Height = humanoid.Height;
+            profile.Width = humanoid.Width;
             profile.HairName = appearance.HairStyleId;
             profile.HairColor = appearance.HairColor.ToHex();
             profile.FacialHairName = appearance.FacialHairStyleId;

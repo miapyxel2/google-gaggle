@@ -28,6 +28,12 @@ public sealed partial class HumanoidAppearanceComponent : Component
     public Gender Gender;
 
     [DataField, AutoNetworkedField]
+    public int Height = 170;
+
+    [DataField, AutoNetworkedField]
+    public int Width = 100;
+
+    [DataField, AutoNetworkedField]
     public int Age = 18;
 
     /// <summary>

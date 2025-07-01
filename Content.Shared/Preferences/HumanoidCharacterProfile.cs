@@ -97,6 +97,12 @@ namespace Content.Shared.Preferences
         [DataField]
         public Gender Gender { get; private set; } = Gender.Male;
 
+        [DataField]
+        public int Height { get; private set; } = 170;
+
+        [DataField]
+        public int Width { get; private set; } = 100;
+
         /// <summary>
         /// <see cref="Appearance"/>
         /// </summary>
@@ -144,6 +150,8 @@ namespace Content.Shared.Preferences
             int age,
             Sex sex,
             Gender gender,
+            int height,
+            int width,
             HumanoidCharacterAppearance appearance,
             SpawnPriorityPreference spawnPriority,
             Dictionary<ProtoId<JobPrototype>, JobPriority> jobPriorities,
@@ -160,6 +168,8 @@ namespace Content.Shared.Preferences
             Age = age;
             Sex = sex;
             Gender = gender;
+            Height = height;
+            Width = width;
             Appearance = appearance;
             SpawnPriority = spawnPriority;
             _jobPriorities = jobPriorities;
@@ -193,6 +203,8 @@ namespace Content.Shared.Preferences
                 other.Age,
                 other.Sex,
                 other.Gender,
+                other.Height,
+                other.Width,
                 other.Appearance.Clone(),
                 other.SpawnPriority,
                 new Dictionary<ProtoId<JobPrototype>, JobPriority>(other.JobPriorities),
@@ -247,10 +259,15 @@ namespace Content.Shared.Preferences
 
             var sex = Sex.Unsexed;
             var age = 18;
+            var width = 100;
+            var height = 170;
             if (prototypeManager.TryIndex<SpeciesPrototype>(species, out var speciesPrototype))
             {
                 sex = random.Pick(speciesPrototype.Sexes);
                 age = random.Next(speciesPrototype.MinAge, speciesPrototype.OldAge); // people don't look and keep making 119 year old characters with zero rp, cap it at middle aged
+
+                width = (int) random.NextFloat(speciesPrototype.MinWidth, speciesPrototype.MaxWidth);
+                height = (int) random.NextFloat(speciesPrototype.MinHeight, speciesPrototype.MaxHeight);
             }
 
             var gender = Gender.Epicene;
@@ -279,6 +296,8 @@ namespace Content.Shared.Preferences
                 Gender = gender,
                 Species = species,
                 Appearance = HumanoidCharacterAppearance.Random(species, sex),
+                Height = height,
+                Width = width
             };
         }
 
@@ -307,6 +326,16 @@ namespace Content.Shared.Preferences
         public HumanoidCharacterProfile WithSex(Sex sex)
         {
             return new(this) { Sex = sex };
+        }
+
+        public HumanoidCharacterProfile WithHeight(int height)
+        {
+            return new(this) { Height = height };
+        }
+
+        public HumanoidCharacterProfile WithWidth(int width)
+        {
+            return new(this) { Width = width };
         }
 
         public HumanoidCharacterProfile WithGender(Gender gender)
@@ -490,6 +519,9 @@ namespace Content.Shared.Preferences
             if (BorgName != other.BorgName) return false;
             if (Sex != other.Sex) return false;
             if (Gender != other.Gender) return false;
+            // Gaggle
+            if (Width != other.Width) return false;
+            if (Height != other.Height) return false;
             if (Species != other.Species) return false;
             if (PreferenceUnavailable != other.PreferenceUnavailable) return false;
             if (SpawnPriority != other.SpawnPriority) return false;
@@ -534,6 +566,10 @@ namespace Content.Shared.Preferences
                 Gender.Neuter => Gender.Neuter,
                 _ => Gender.Epicene // Invalid enum values.
             };
+
+            // Gaggle - width & height
+            var width = Math.Clamp(Width, speciesPrototype.MinWidth, speciesPrototype.MaxWidth);
+            var height = Math.Clamp(Height, speciesPrototype.MinHeight, speciesPrototype.MaxHeight);
 
             string name;
             if (string.IsNullOrEmpty(Name))
@@ -653,6 +689,9 @@ namespace Content.Shared.Preferences
             Age = age;
             Sex = sex;
             Gender = gender;
+            // Gaggle - width & height
+            Width = width;
+            Height = height;
             Appearance = appearance;
             SpawnPriority = spawnPriority;
 
@@ -774,6 +813,9 @@ namespace Content.Shared.Preferences
             hashCode.Add(Age);
             hashCode.Add((int) Sex);
             hashCode.Add((int) Gender);
+            // Gaggle - width & height
+            hashCode.Add(Height);
+            hashCode.Add(Width);
             hashCode.Add(Appearance);
             hashCode.Add((int) SpawnPriority);
             hashCode.Add((int) PreferenceUnavailable);
