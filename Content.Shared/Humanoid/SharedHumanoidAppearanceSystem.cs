@@ -336,11 +336,11 @@ public abstract class SharedHumanoidAppearanceSystem : EntitySystem
     /// <summary>
     ///     Set a humanoid mob's size.
     /// </summary>
-    /// <param name="uid"></param>
-    /// <param name="height"></param>
-    /// <param name="width"></param>
-    /// <param name="sync"></param>
-    /// <param name="humanoid"></param>
+    /// <param name="uid">The humanoid mob's UID.</param>
+    /// <param name="height">The height in centimeters to set the mob to.</param>
+    /// <param name="width">The width in centimeters to set the mob to.</param>
+    /// <param name="sync">Whether to immediately synchronize this to the humanoid mob, or not.</param>
+    /// <param name="humanoid">Humanoid component of the entity</param>
     public void SetSize(EntityUid uid, int height, int width, bool sync = true, HumanoidAppearanceComponent? humanoid = null)
     {
         if (!Resolve(uid, ref humanoid) || (humanoid.Height == height && humanoid.Width == width))

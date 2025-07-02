@@ -134,7 +134,7 @@ public sealed partial class SpeciesPrototype : IPrototype
     public int MaxHeight = 244;
 
     /// <summary>
-    ///     Minimum height for a species in centimeters.
+    ///     Minimum width for a species in centimeters.
     /// </summary>
     [DataField]
     public int MinWidth = 52;
@@ -159,14 +159,14 @@ public sealed partial class SpeciesPrototype : IPrototype
 
     /// <summary>
     ///     The height of a species's sprite from bottom of feet to top of head, used in scale calculations.
-    ///     Don't modify unless the species's sprite is drastically different, like Impstation's Grey or Kobold/Monkey Players.
+    ///     Don't modify unless the species's sprite is different in shape or size from a regular human's, like Impstation's Grey or Kobold/Monkey Players.
     /// </summary>
     [DataField]
     public int SpriteHeight = 29;
 
     /// <summary>
     ///     The width of a species's sprite from the sides, used in scale calculations.
-    ///     Don't modify unless the species's sprite is drastically different, like Impstation's Grey or Kobold/Monkey Players.
+    ///     Don't modify unless the species's sprite is different in shape or size from a regular human's, like Impstation's Grey or Kobold/Monkey Players.
     /// </summary>
     [DataField]
     public int SpriteWidth = 17;
