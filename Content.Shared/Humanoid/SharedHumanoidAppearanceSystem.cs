@@ -151,6 +151,7 @@ public abstract class SharedHumanoidAppearanceSystem : EntitySystem
         targetHumanoid.EyeColor = sourceHumanoid.EyeColor;
         targetHumanoid.Age = sourceHumanoid.Age;
         SetSex(target, sourceHumanoid.Sex, false, targetHumanoid);
+        SetSize(target, sourceHumanoid.Height, sourceHumanoid.Width, false, targetHumanoid);
         targetHumanoid.CustomBaseLayers = new(sourceHumanoid.CustomBaseLayers);
         targetHumanoid.MarkingSet = new(sourceHumanoid.MarkingSet);
 
@@ -333,6 +334,28 @@ public abstract class SharedHumanoidAppearanceSystem : EntitySystem
     }
 
     /// <summary>
+    ///     Set a humanoid mob's size.
+    /// </summary>
+    /// <param name="uid">The humanoid mob's UID.</param>
+    /// <param name="height">The height in centimeters to set the mob to.</param>
+    /// <param name="width">The width in centimeters to set the mob to.</param>
+    /// <param name="sync">Whether to immediately synchronize this to the humanoid mob, or not.</param>
+    /// <param name="humanoid">Humanoid component of the entity</param>
+    public void SetSize(EntityUid uid, int height, int width, bool sync = true, HumanoidAppearanceComponent? humanoid = null)
+    {
+        if (!Resolve(uid, ref humanoid) || (humanoid.Height == height && humanoid.Width == width))
+            return;
+
+        humanoid.Width = width;
+        humanoid.Height = height;
+
+        if (sync)
+        {
+            Dirty(uid, humanoid);
+        }
+    }
+
+    /// <summary>
     ///     Loads a humanoid character profile directly onto this humanoid mob.
     /// </summary>
     /// <param name="uid">The mob's entity UID.</param>
@@ -350,6 +373,7 @@ public abstract class SharedHumanoidAppearanceSystem : EntitySystem
 
         SetSpecies(uid, profile.Species, false, humanoid);
         SetSex(uid, profile.Sex, false, humanoid);
+        SetSize(uid, profile.Height, profile.Width, false, humanoid);
         humanoid.EyeColor = profile.Appearance.EyeColor;
 
         SetSkinColor(uid, profile.Appearance.SkinColor, false);

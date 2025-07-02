@@ -8,6 +8,12 @@
   skinColoration: Hues
   defaultSkinTone: "#ffffff"
   markingLimits: MobMonkeyMarkingLimits
+  spriteHeight: 20
+  spriteWidth: 13
+  defaultHeight: 126
+  defaultWidth: 76
+  maxHeight: 152
+  maxWidth: 100
 
 - type: speciesBaseSprites
   id: MobMonkeySprites

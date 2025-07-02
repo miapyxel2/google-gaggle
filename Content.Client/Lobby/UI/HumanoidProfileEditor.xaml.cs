@@ -58,6 +58,7 @@ namespace Content.Client.Lobby.UI
 
         private bool _exporting;
         private bool _imaging;
+        private bool _doSizeActions = true;
 
         /// <summary>
         /// If we're attempting to save.
@@ -222,6 +223,54 @@ namespace Content.Client.Lobby.UI
             };
 
             #endregion Gender
+
+            #region Height
+
+            HeightSlider.OnValueChanged += args =>
+            {
+                if (!_doSizeActions)
+                    return;
+
+                Height.Text = ((int) args.Value).ToString();
+                SetCharacterHeight((int) args.Value);
+            };
+            HeightResetButton.OnPressed += args =>
+            {
+                if (!_doSizeActions)
+                    return;
+
+                int defaultHeight = (Profile is not null && _prototypeManager.TryIndex<SpeciesPrototype>(Profile.Species, out var speciesPrototype)) ?
+                    speciesPrototype.DefaultHeight :
+                    170;
+
+                HeightSlider.Value = defaultHeight;
+            };
+
+            #endregion
+
+            #region Width
+
+            WidthSlider.OnValueChanged += args =>
+            {
+                if (!_doSizeActions)
+                    return;
+
+                Width.Text = ((int) args.Value).ToString();
+                SetCharacterWidth((int) args.Value);
+            };
+            WidthResetButton.OnPressed += args =>
+            {
+                if (!_doSizeActions)
+                    return;
+
+                int defaultWidth = (Profile is not null && _prototypeManager.TryIndex<SpeciesPrototype>(Profile.Species, out var speciesPrototype)) ?
+                    speciesPrototype.DefaultWidth :
+                    100;
+
+                WidthSlider.Value = defaultWidth;
+            };
+
+            #endregion
 
             RefreshSpecies();
 
@@ -786,12 +835,16 @@ namespace Content.Client.Lobby.UI
             IsDirty = false;
             JobOverride = null;
 
+            _doSizeActions = false;
+
             UpdateNameEdit();
             UpdateFlavorTextEdit();
             // #Goobstation - Borg Preferred Name
             UpdateBorgNameEdit();
             UpdateSexControls();
             UpdateGenderControls();
+            // gaggle! :)
+            UpdateSizeControls();
             UpdateSkinColor();
             UpdateSpawnPriorityControls();
             UpdateAgeEdit();
@@ -808,7 +861,11 @@ namespace Content.Client.Lobby.UI
             RefreshSpecies();
             RefreshTraits();
             RefreshFlavorText();
+            // gaggle! :)
+            RefreshSize();
             ReloadPreview();
+
+            _doSizeActions = true;
 
             if (Profile != null)
             {
@@ -1250,6 +1307,18 @@ namespace Content.Client.Lobby.UI
             ReloadPreview();
         }
 
+        private void SetCharacterHeight(int newHeight)
+        {
+            Profile = Profile?.WithHeight(newHeight);
+            ReloadProfilePreview();
+        }
+
+        private void SetCharacterWidth(int newWidth)
+        {
+            Profile = Profile?.WithWidth(newWidth);
+            ReloadProfilePreview();
+        }
+
         private void SetSpecies(string newSpecies)
         {
             Profile = Profile?.WithSpecies(newSpecies);
@@ -1260,6 +1329,7 @@ namespace Content.Client.Lobby.UI
             // In case there's species restrictions for loadouts
             RefreshLoadouts();
             UpdateSexControls(); // update sex for new species
+            UpdateSizeControls(); // update size for new species , gaggle! :)
             UpdateSpeciesGuidebookIcon();
             ReloadPreview();
         }
@@ -1362,6 +1432,38 @@ namespace Content.Client.Lobby.UI
                 SexButton.SelectId((int) Profile.Sex);
             else
                 SexButton.SelectId((int) sexes[0]);
+        }
+
+        private void UpdateSizeControls()
+        {
+            if (Profile == null)
+                return;
+
+            if (_prototypeManager.TryIndex<SpeciesPrototype>(Profile.Species, out var speciesProto))
+            {
+                HeightSlider.MinValue = speciesProto.MinHeight;
+                HeightSlider.MaxValue = speciesProto.MaxHeight;
+                WidthSlider.MinValue = speciesProto.MinWidth;
+                WidthSlider.MaxValue = speciesProto.MaxWidth;
+            }
+            else
+            {
+                HeightSlider.MinValue = 90;
+                HeightSlider.MaxValue = 170;
+                WidthSlider.MinValue = 52;
+                WidthSlider.MaxValue = 144;
+            }
+        }
+
+        private void RefreshSize()
+        {
+            if (Profile == null)
+                return;
+
+            HeightSlider.Value = Profile.Height;
+            WidthSlider.Value = Profile.Width;
+            Height.Text = Profile.Height.ToString();
+            Width.Text = Profile.Width.ToString();
         }
 
         private void UpdateSkinColor()

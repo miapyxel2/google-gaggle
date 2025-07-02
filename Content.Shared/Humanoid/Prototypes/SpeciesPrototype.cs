@@ -120,6 +120,56 @@ public sealed partial class SpeciesPrototype : IPrototype
     /// </summary>
     [DataField]
     public int MaxAge = 120;
+
+    /// <summary>
+    ///     Minimum height for a species in centimeters.
+    /// </summary>
+    [DataField]
+    public int MinHeight = 90;
+
+    /// <summary>
+    ///     Maximum height for a species in centimeters.
+    /// </summary>
+    [DataField]
+    public int MaxHeight = 244;
+
+    /// <summary>
+    ///     Minimum width for a species in centimeters.
+    /// </summary>
+    [DataField]
+    public int MinWidth = 52;
+
+    /// <summary>
+    ///     Maximum width for a species in centimeters.
+    /// </summary>
+    [DataField]
+    public int MaxWidth = 144;
+
+    /// <summary>
+    ///     Default height for a species in centimeters.
+    /// </summary>
+    [DataField]
+    public int DefaultHeight = 170;
+
+    /// <summary>
+    ///     Default width for a species in centimeters.
+    /// </summary>
+    [DataField]
+    public int DefaultWidth = 100;
+
+    /// <summary>
+    ///     The height of a species's sprite from bottom of feet to top of head, used in scale calculations.
+    ///     Don't modify unless the species's sprite is different in shape or size from a regular human's, like Impstation's Grey or Kobold/Monkey Players.
+    /// </summary>
+    [DataField]
+    public int SpriteHeight = 29;
+
+    /// <summary>
+    ///     The width of a species's sprite from the sides, used in scale calculations.
+    ///     Don't modify unless the species's sprite is different in shape or size from a regular human's, like Impstation's Grey or Kobold/Monkey Players.
+    /// </summary>
+    [DataField]
+    public int SpriteWidth = 17;
 }
 
 public enum SpeciesNaming : byte

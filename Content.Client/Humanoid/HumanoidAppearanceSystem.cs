@@ -1,3 +1,4 @@
+using System.Numerics;
 using Content.Shared.Humanoid;
 using Content.Shared.Humanoid.Markings;
 using Content.Shared.Humanoid.Prototypes;
@@ -29,6 +30,21 @@ public sealed class HumanoidAppearanceSystem : SharedHumanoidAppearanceSystem
     {
         UpdateLayers(component, sprite);
         ApplyMarkingSet(component, sprite);
+
+        var speciesPrototype = _prototypeManager.Index<SpeciesPrototype>(component.Species);
+        var width = Math.Clamp(component.Width, speciesPrototype.MinWidth, speciesPrototype.MaxWidth);
+        var height = Math.Clamp(component.Height, speciesPrototype.MinHeight, speciesPrototype.MaxHeight);
+
+        var scale = new Vector2(
+            width / 100f,
+            height / 170f
+        );
+        var spriteScale = new Vector2(
+            17f / speciesPrototype.SpriteWidth,
+            29f / speciesPrototype.SpriteHeight
+        );
+
+        sprite.Scale = scale * spriteScale;
 
         sprite[sprite.LayerMapReserveBlank(HumanoidVisualLayers.Eyes)].Color = component.EyeColor;
     }
@@ -199,6 +215,8 @@ public sealed class HumanoidAppearanceSystem : SharedHumanoidAppearanceSystem
         humanoid.Species = profile.Species;
         humanoid.SkinColor = profile.Appearance.SkinColor;
         humanoid.EyeColor = profile.Appearance.EyeColor;
+        humanoid.Height = profile.Height;
+        humanoid.Width = profile.Width;
 
         UpdateSprite(humanoid, Comp<SpriteComponent>(uid));
     }
