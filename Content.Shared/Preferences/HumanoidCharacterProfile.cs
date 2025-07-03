@@ -232,8 +232,6 @@ namespace Content.Shared.Preferences
         public static HumanoidCharacterProfile DefaultWithSpecies(string species = SharedHumanoidAppearanceSystem.DefaultSpecies)
         {
             var prototypeManager = IoCManager.Resolve<IPrototypeManager>();
-            var logManager = IoCManager.Resolve<ILogManager>();
-            var sawmill = logManager.GetSawmill("profile.DefaultWithSpecies");
 
             int height = 170;
             int width = 100;
