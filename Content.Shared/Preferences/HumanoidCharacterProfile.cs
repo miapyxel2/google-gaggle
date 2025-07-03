@@ -231,9 +231,24 @@ namespace Content.Shared.Preferences
         /// <returns>Humanoid character profile with default settings.</returns>
         public static HumanoidCharacterProfile DefaultWithSpecies(string species = SharedHumanoidAppearanceSystem.DefaultSpecies)
         {
+            var prototypeManager = IoCManager.Resolve<IPrototypeManager>();
+            var logManager = IoCManager.Resolve<ILogManager>();
+            var sawmill = logManager.GetSawmill("profile.DefaultWithSpecies");
+
+            int height = 170;
+            int width = 100;
+
+            if (prototypeManager.TryIndex<SpeciesPrototype>(species, out var speciesProto))
+            {
+                height = speciesProto.DefaultHeight;
+                width = speciesProto.DefaultWidth;
+            }
+
             return new()
             {
                 Species = species,
+                Height = height,
+                Width = width
             };
         }
 
