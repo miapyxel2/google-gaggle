@@ -22,6 +22,9 @@ public sealed partial class Emote : EntityEffect
     [DataField]
     public bool Force = false;
 
+    [DataField]
+    public string? ForceMessage = null;
+
     // JUSTIFICATION: Emoting is flavor, so same reason popup messages are not in here.
     protected override string? ReagentEffectGuidebookText(IPrototypeManager prototype, IEntitySystemManager entSys)
         => null;
@@ -33,7 +36,7 @@ public sealed partial class Emote : EntityEffect
 
         var chatSys = args.EntityManager.System<ChatSystem>();
         if (ShowInChat)
-            chatSys.TryEmoteWithChat(args.TargetEntity, EmoteId, ChatTransmitRange.GhostRangeLimit, forceEmote: Force);
+            chatSys.TryEmoteWithChat(args.TargetEntity, EmoteId, ChatTransmitRange.GhostRangeLimit, forceEmote: Force, forceMessage: ForceMessage);
         else
             chatSys.TryEmoteWithoutChat(args.TargetEntity, EmoteId);
 
