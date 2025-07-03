@@ -9,7 +9,7 @@
   blacklist:
     components:
     - BorgChassis
-  chatMessages: ["chat-emote-msg-hic"]
+  chatMessages: ["chat-emote-msg-hiccup"]
   chatTriggers:
     - hiccups
     - hiccup

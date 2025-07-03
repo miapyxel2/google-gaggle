@@ -46,6 +46,6 @@ public sealed partial class DrunkHiccup : EntityEffect
             return;
 
         var chatSys = args.EntityManager.System<ChatSystem>();
-        chatSys.TryEmoteWithChat(uid, "Hiccup", ChatTransmitRange.GhostRangeLimit);
+        chatSys.TryEmoteWithChat(uid, "Hiccup", ChatTransmitRange.GhostRangeLimit, forceMessage: "chat-emote-msg-hic");
     }
 }
