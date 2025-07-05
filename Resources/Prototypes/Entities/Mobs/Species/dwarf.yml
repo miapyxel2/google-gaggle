@@ -52,7 +52,7 @@
   - type: Speech
     speechSounds: Bass
   - type: HumanoidAppearance
-    species: Human
+    species: Dwarf
     hideLayersOnEquip:
     - Hair
     - Snout
@@ -70,7 +70,7 @@
   categories: [ HideSpawnMenu ]
   components:
   - type: Sprite
-    scale: 1, 0.8
+    scale: 1.15, 0.8
   - type: Inventory
     femaleDisplacements:
       jumpsuit:
