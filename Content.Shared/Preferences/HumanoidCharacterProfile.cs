@@ -399,12 +399,6 @@ namespace Content.Shared.Preferences
             return new(this) { Height = height };
         }
 
-        // workaround for PlayerProvidedCharacterRecords, might be changed so do not depend on this function
-        public void SetHeight(int height)
-        {
-            Height = height;
-        }
-
         public HumanoidCharacterProfile WithWidth(int width)
         {
             return new(this) { Width = width };

@@ -1350,6 +1350,7 @@ namespace Content.Client.Lobby.UI
         {
             Profile = Profile?.WithHeight(newHeight);
             ReloadProfilePreview();
+            _recordsTab.UpdateRecords(_recordsTab.Records.WithHeight(newHeight));
         }
 
         private void SetCharacterWidth(int newWidth)

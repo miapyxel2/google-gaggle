@@ -20,6 +20,9 @@ public sealed partial class PlayerProvidedCharacterRecords
 
     // All
     [DataField]
+    public int Height { get; private set; }
+
+    [DataField]
     public int Weight { get; private set; }
     public const int MaxWeight = 300;
 
@@ -91,6 +94,7 @@ public sealed partial class PlayerProvidedCharacterRecords
 
     public PlayerProvidedCharacterRecords(
         bool hasWorkAuthorization,
+        int height,
         int weight,
         string emergencyContactName,
         string identifyingFeatures,
@@ -99,6 +103,7 @@ public sealed partial class PlayerProvidedCharacterRecords
         List<RecordEntry> medicalEntries, List<RecordEntry> securityEntries, List<RecordEntry> employmentEntries)
     {
         HasWorkAuthorization = hasWorkAuthorization;
+        Height = height;
         Weight = weight;
         EmergencyContactName = emergencyContactName;
         IdentifyingFeatures = identifyingFeatures;
@@ -112,6 +117,7 @@ public sealed partial class PlayerProvidedCharacterRecords
 
     public PlayerProvidedCharacterRecords(PlayerProvidedCharacterRecords other)
     {
+        Height = other.Height;
         Weight = other.Weight;
         EmergencyContactName = other.EmergencyContactName;
         HasWorkAuthorization = other.HasWorkAuthorization;
@@ -128,7 +134,7 @@ public sealed partial class PlayerProvidedCharacterRecords
     {
         return new PlayerProvidedCharacterRecords(
             hasWorkAuthorization: true,
-            weight: 70,
+            height: 170, weight: 70,
             emergencyContactName: "",
             identifyingFeatures: "",
             allergies: "None",
@@ -143,7 +149,8 @@ public sealed partial class PlayerProvidedCharacterRecords
     public bool MemberwiseEquals(PlayerProvidedCharacterRecords other)
     {
         // This is ugly but is only used for integration tests.
-        var test = Weight == other.Weight
+        var test = Height == other.Height
+                   && Weight == other.Weight
                    && EmergencyContactName == other.EmergencyContactName
                    && HasWorkAuthorization == other.HasWorkAuthorization
                    && IdentifyingFeatures == other.IdentifyingFeatures
@@ -196,8 +203,6 @@ public sealed partial class PlayerProvidedCharacterRecords
     /// </summary>
     public void EnsureValid()
     {
-        var collection = IoCManager.Instance!;
-
         Weight = Math.Clamp(Weight, 0, MaxWeight);
         EmergencyContactName =
             ClampString(EmergencyContactName, TextMedLen);
@@ -209,6 +214,10 @@ public sealed partial class PlayerProvidedCharacterRecords
         EnsureValidEntries(EmploymentEntries);
         EnsureValidEntries(MedicalEntries);
         EnsureValidEntries(SecurityEntries);
+    }
+    public PlayerProvidedCharacterRecords WithHeight(int height)
+    {
+        return new(this) { Height = height };
     }
     public PlayerProvidedCharacterRecords WithWeight(int weight)
     {

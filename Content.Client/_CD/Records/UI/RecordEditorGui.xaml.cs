@@ -18,7 +18,11 @@ public sealed partial class RecordEditorGui : Control
     /// Delegate that tells the editor to save records when the save button is pressed
     /// </summary>
     private readonly Action<PlayerProvidedCharacterRecords> _updateProfileRecords;
-    private PlayerProvidedCharacterRecords _records = default!;
+    public PlayerProvidedCharacterRecords Records
+    {
+        get;
+        private set;
+    } = default!;
     private HumanoidProfileEditor _profileEditor;
 
     public RecordEditorGui(Action<PlayerProvidedCharacterRecords> updateProfileRecords, HumanoidProfileEditor profileEditor)
@@ -40,7 +44,7 @@ public sealed partial class RecordEditorGui : Control
 
             _profileEditor.FindControl<Slider>("HeightSlider").Value = newHeight;
             _profileEditor.SetCharacterHeight(newHeight);
-            // UpdateRecords(_records.WithHeight(newHeight));
+            UpdateRecords(Records.WithHeight(newHeight));
         };
 
         WeightEdit.OnTextChanged += args =>
@@ -52,12 +56,12 @@ public sealed partial class RecordEditorGui : Control
             if (!_profileEditor.DoSizeActions)
                 return;
 
-            UpdateRecords(_records.WithWeight(newWeight));
+            UpdateRecords(Records.WithWeight(newWeight));
         };
 
         ContactNameEdit.OnTextChanged += args =>
         {
-            UpdateRecords(_records.WithContactName(args.Text));
+            UpdateRecords(Records.WithContactName(args.Text));
         };
 
         #endregion
@@ -66,7 +70,7 @@ public sealed partial class RecordEditorGui : Control
 
         WorkAuthCheckBox.OnToggled += args =>
         {
-            UpdateRecords(_records.WithWorkAuth(args.Pressed));
+            UpdateRecords(Records.WithWorkAuth(args.Pressed));
         };
 
         #endregion
@@ -75,7 +79,7 @@ public sealed partial class RecordEditorGui : Control
 
         IdentifyingFeaturesEdit.OnTextChanged += args =>
         {
-            UpdateRecords(_records.WithIdentifyingFeatures(args.Text));
+            UpdateRecords(Records.WithIdentifyingFeatures(args.Text));
         };
 
         #endregion
@@ -84,17 +88,17 @@ public sealed partial class RecordEditorGui : Control
 
         AllergiesEdit.OnTextChanged += args =>
         {
-            UpdateRecords(_records.WithAllergies(args.Text));
+            UpdateRecords(Records.WithAllergies(args.Text));
         };
 
         DrugAllergiesEdit.OnTextChanged += args =>
         {
-            UpdateRecords(_records.WithDrugAllergies(args.Text));
+            UpdateRecords(Records.WithDrugAllergies(args.Text));
         };
 
         PostmortemEdit.OnTextChanged += args =>
         {
-            UpdateRecords(_records.WithPostmortemInstructions(args.Text));
+            UpdateRecords(Records.WithPostmortemInstructions(args.Text));
         };
 
         #endregion
@@ -107,17 +111,17 @@ public sealed partial class RecordEditorGui : Control
 
         EmploymentEntrySelector.OnUpdateEntries += args =>
         {
-            UpdateRecords(_records.WithEmploymentEntries(args.Entries));
+            UpdateRecords(Records.WithEmploymentEntries(args.Entries));
         };
 
         MedicalEntrySelector.OnUpdateEntries += args =>
         {
-            UpdateRecords(_records.WithMedicalEntries(args.Entries));
+            UpdateRecords(Records.WithMedicalEntries(args.Entries));
         };
 
         SecurityEntrySelector.OnUpdateEntries += args =>
         {
-            UpdateRecords(_records.WithSecurityEntries(args.Entries));
+            UpdateRecords(Records.WithSecurityEntries(args.Entries));
         };
 
         #endregion
@@ -125,18 +129,18 @@ public sealed partial class RecordEditorGui : Control
 
     public void Update(HumanoidCharacterProfile? profile)
     {
-        _records = profile?.CDCharacterRecords ?? PlayerProvidedCharacterRecords.DefaultRecords();
-        EmploymentEntrySelector.UpdateContents(_records.EmploymentEntries);
-        MedicalEntrySelector.UpdateContents(_records.MedicalEntries);
-        SecurityEntrySelector.UpdateContents(_records.SecurityEntries);
+        Records = profile?.CDCharacterRecords ?? PlayerProvidedCharacterRecords.DefaultRecords();
+        EmploymentEntrySelector.UpdateContents(Records.EmploymentEntries);
+        MedicalEntrySelector.UpdateContents(Records.MedicalEntries);
+        SecurityEntrySelector.UpdateContents(Records.SecurityEntries);
         UpdateWidgets();
     }
 
-    private void UpdateRecords(PlayerProvidedCharacterRecords records)
+    public void UpdateRecords(PlayerProvidedCharacterRecords records)
     {
         records.EnsureValid();
-        _records = records;
-        _updateProfileRecords(_records);
+        Records = records;
+        _updateProfileRecords(Records);
         UpdateWidgets();
     }
 
@@ -147,17 +151,17 @@ public sealed partial class RecordEditorGui : Control
             HeightEdit.SetText(_profileEditor.Profile.Height.ToString());
             UpdateImperialHeight(_profileEditor.Profile.Height);
         }
-        WeightEdit.SetText(_records.Weight.ToString());
-        UpdateImperialWeight(_records.Weight);
-        ContactNameEdit.SetText(_records.EmergencyContactName);
+        WeightEdit.SetText(Records.Weight.ToString());
+        UpdateImperialWeight(Records.Weight);
+        ContactNameEdit.SetText(Records.EmergencyContactName);
 
-        WorkAuthCheckBox.Pressed = _records.HasWorkAuthorization;
+        WorkAuthCheckBox.Pressed = Records.HasWorkAuthorization;
 
-        IdentifyingFeaturesEdit.SetText(_records.IdentifyingFeatures);
+        IdentifyingFeaturesEdit.SetText(Records.IdentifyingFeatures);
 
-        AllergiesEdit.SetText(_records.Allergies);
-        DrugAllergiesEdit.SetText(_records.DrugAllergies);
-        PostmortemEdit.SetText(_records.PostmortemInstructions);
+        AllergiesEdit.SetText(Records.Allergies);
+        DrugAllergiesEdit.SetText(Records.DrugAllergies);
+        PostmortemEdit.SetText(Records.PostmortemInstructions);
     }
 
     public void UpdateImperialHeight(int newHeight)

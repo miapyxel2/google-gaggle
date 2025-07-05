@@ -225,10 +225,11 @@ namespace Content.Server.Database
                     markings.Add(parsed);
                 }
             }
-             // Begin CD - Chracter Records
+            // Begin CD - Chracter Records
             var cdRecords = profile.CDProfile?.CharacterRecords != null
                 ? RecordsSerialization.Deserialize(profile.CDProfile.CharacterRecords, profile.CDProfile.CharacterRecordEntries)
                 : PlayerProvidedCharacterRecords.DefaultRecords();
+            cdRecords = cdRecords.WithHeight(profile.Height);
             // End CD - Character Records
 
             var loadouts = new Dictionary<string, RoleLoadout>();

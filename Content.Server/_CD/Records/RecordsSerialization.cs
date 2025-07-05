@@ -63,6 +63,7 @@ public static class RecordsSerialization
         var e = json.RootElement;
         var def = PlayerProvidedCharacterRecords.DefaultRecords();
         return new PlayerProvidedCharacterRecords(
+            height: 170,
             weight: DeserializeInt(e, nameof(def.Weight), def.Weight),
             emergencyContactName: DeserializeString(e, nameof(def.EmergencyContactName), def.EmergencyContactName),
             hasWorkAuthorization: DeserializeBool(e, nameof(def.HasWorkAuthorization), def.HasWorkAuthorization),
