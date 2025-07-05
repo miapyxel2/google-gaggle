@@ -63,7 +63,7 @@ namespace Content.Client.Lobby.UI
 
         private bool _exporting;
         private bool _imaging;
-        private bool _doSizeActions = true;
+        public bool DoSizeActions { get; private set; } = true;
 
         /// <summary>
         /// If we're attempting to save.
@@ -239,15 +239,20 @@ namespace Content.Client.Lobby.UI
 
             HeightSlider.OnValueChanged += args =>
             {
-                if (!_doSizeActions)
+                if (!DoSizeActions)
                     return;
 
                 Height.Text = ((int) args.Value).ToString();
                 SetCharacterHeight((int) args.Value);
+
+                if (_recordsTab is not null)
+                {
+                    _recordsTab.Update(Profile);
+                }
             };
             HeightResetButton.OnPressed += args =>
             {
-                if (!_doSizeActions)
+                if (!DoSizeActions)
                     return;
 
                 int defaultHeight = (Profile is not null && _prototypeManager.TryIndex<SpeciesPrototype>(Profile.Species, out var speciesPrototype)) ?
@@ -263,7 +268,7 @@ namespace Content.Client.Lobby.UI
 
             WidthSlider.OnValueChanged += args =>
             {
-                if (!_doSizeActions)
+                if (!DoSizeActions)
                     return;
 
                 Width.Text = ((int) args.Value).ToString();
@@ -271,7 +276,7 @@ namespace Content.Client.Lobby.UI
             };
             WidthResetButton.OnPressed += args =>
             {
-                if (!_doSizeActions)
+                if (!DoSizeActions)
                     return;
 
                 int defaultWidth = (Profile is not null && _prototypeManager.TryIndex<SpeciesPrototype>(Profile.Species, out var speciesPrototype)) ?
@@ -292,42 +297,6 @@ namespace Content.Client.Lobby.UI
                 UpdateHairPickers();
                 OnSkinColorOnValueChanged();
             };
-
-            #region CDHeight
-
-            CDHeight.OnTextChanged += args =>
-            {
-                if (Profile is null || !float.TryParse(args.Text, out var newHeight))
-                    return;
-
-                var prototype = _prototypeManager.Index<SpeciesPrototype>(Profile.Species);
-                newHeight = MathF.Round(Math.Clamp(newHeight, prototype.MinHeight, prototype.MaxHeight), 2);
-
-                // The percentage between the start and end numbers, aka "inverse lerp"
-                var sliderPercent = (newHeight - prototype.MinHeight) /
-                                    (prototype.MaxHeight - prototype.MinHeight);
-                CDHeightSlider.Value = sliderPercent;
-
-                SetProfileHeight(newHeight);
-            };
-
-            CDHeightReset.OnPressed += _ =>
-            {
-                CDHeight.SetText(_defaultHeight.ToString(CultureInfo.InvariantCulture), true);
-            };
-
-            CDHeightSlider.OnValueChanged += _ =>
-            {
-                if (Profile is null)
-                    return;
-                var prototype = _prototypeManager.Index<SpeciesPrototype>(Profile.Species);
-                var newHeight = MathF.Round(MathHelper.Lerp(prototype.MinHeight, prototype.MaxHeight, CDHeightSlider.Value), 2);
-                CDHeight.Text = newHeight.ToString(CultureInfo.InvariantCulture);
-                SetProfileHeight(newHeight);
-            };
-
-            #endregion CDHeight
-            // End CD - Character Records
 
             #region Skin
 
@@ -525,7 +494,7 @@ namespace Content.Client.Lobby.UI
             // Begin CD - Character Records
             #region CosmaticRecords
 
-            _recordsTab = new RecordEditorGui(UpdateProfileRecords);
+            _recordsTab = new RecordEditorGui(UpdateProfileRecords, this);
             TabContainer.AddChild(_recordsTab);
             TabContainer.SetTabTitle(TabContainer.ChildCount - 1, Loc.GetString("humanoid-profile-editor-cd-records-tab"));
 
@@ -892,7 +861,7 @@ namespace Content.Client.Lobby.UI
             IsDirty = false;
             JobOverride = null;
 
-            _doSizeActions = false;
+            DoSizeActions = false;
 
             UpdateNameEdit();
             UpdateFlavorTextEdit();
@@ -912,7 +881,6 @@ namespace Content.Client.Lobby.UI
             UpdateCMarkingsHair();
             UpdateCMarkingsFacialHair();
             // Begin CD - Character Records
-            UpdateHeightControls();
             _recordsTab.Update(profile);
             // End CD - Character Records
 
@@ -926,7 +894,7 @@ namespace Content.Client.Lobby.UI
             RefreshSize();
             ReloadPreview();
 
-            _doSizeActions = true;
+            DoSizeActions = true;
 
             if (Profile != null)
             {
@@ -1378,7 +1346,7 @@ namespace Content.Client.Lobby.UI
             ReloadPreview();
         }
 
-        private void SetCharacterHeight(int newHeight)
+        public void SetCharacterHeight(int newHeight)
         {
             Profile = Profile?.WithHeight(newHeight);
             ReloadProfilePreview();
@@ -1416,14 +1384,6 @@ namespace Content.Client.Lobby.UI
             _entManager.System<MetaDataSystem>().SetEntityName(PreviewDummy, newName);
         }
 
-        // Begin CD - Character Records
-        private void SetProfileHeight(float height)
-        {
-            Profile = Profile?.WithHeight(height);
-            SetDirty();
-            ReloadProfilePreview();
-        }
-        // End CD - Character Records
         private void SetSpawnPriority(SpawnPriorityPreference newSpawnPriority)
         {
             Profile = Profile?.WithSpawnPriorityPreference(newSpawnPriority);
@@ -1542,6 +1502,10 @@ namespace Content.Client.Lobby.UI
             HeightSlider.Value = Profile.Height;
             WidthSlider.Value = Profile.Width;
             Height.Text = Profile.Height.ToString();
+            if (_recordsTab is not null)
+            {
+                _recordsTab.Update(Profile);
+            }
             Width.Text = Profile.Width.ToString();
         }
 
@@ -1647,25 +1611,6 @@ namespace Content.Client.Lobby.UI
             PronounsButton.SelectId((int) Profile.Gender);
         }
 
-         // Begin CD - Character Records
-        private void UpdateHeightControls()
-        {
-            if (Profile == null)
-            {
-                return;
-            }
-
-            var species = _species.Find(x => x.ID == Profile.Species);
-            if (species != null)
-                _defaultHeight = species.DefaultHeight;
-
-            var prototype = _prototypeManager.Index<SpeciesPrototype>(Profile.Species);
-            var sliderPercent = (Profile.Height - prototype.MinHeight) /
-                                (prototype.MaxHeight - prototype.MinHeight);
-            CDHeightSlider.Value = sliderPercent;
-            CDHeight.Text = Profile.Height.ToString(CultureInfo.InvariantCulture);
-        }
-        // End CD - Character Records
 
         private void UpdateSpawnPriorityControls()
         {

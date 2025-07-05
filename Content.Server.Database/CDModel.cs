@@ -24,8 +24,6 @@ public static class CDModel
         public int ProfileId { get; set; }
         public Profile Profile { get; set; } = null!;
 
-        public float Height { get; set; } = 1f;
-
         [Column("character_records", TypeName = "jsonb")]
         public JsonDocument? CharacterRecords { get; set; }
 

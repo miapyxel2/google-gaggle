@@ -184,7 +184,7 @@ namespace Content.Shared.Preferences
         public PreferenceUnavailableMode PreferenceUnavailable { get; private set; } =
             PreferenceUnavailableMode.SpawnAsOverflow;
 
-         // Begin CD - Character records
+        // Begin CD - Character records
         [DataField("cosmaticDriftCharacterRecords")]
         public PlayerProvidedCharacterRecords? CDCharacterRecords;
         // End CD - Character records
@@ -374,7 +374,7 @@ namespace Content.Shared.Preferences
         public HumanoidCharacterProfile WithName(string name)
         {
             return new(this) { Name = name };
-            return new(this) { FlavorText = flavorText };
+            // return new(this) { FlavorText = flavorText };
         }
 
         public HumanoidCharacterProfile WithAge(int age)
@@ -397,6 +397,12 @@ namespace Content.Shared.Preferences
         public HumanoidCharacterProfile WithHeight(int height)
         {
             return new(this) { Height = height };
+        }
+
+        // workaround for PlayerProvidedCharacterRecords, might be changed so do not depend on this function
+        public void SetHeight(int height)
+        {
+            Height = height;
         }
 
         public HumanoidCharacterProfile WithWidth(int width)
@@ -423,6 +429,11 @@ namespace Content.Shared.Preferences
         public HumanoidCharacterProfile WithSpawnPriorityPreference(SpawnPriorityPreference spawnPriority)
         {
             return new(this) { SpawnPriority = spawnPriority };
+        }
+        
+        public HumanoidCharacterProfile WithFlavorText(string flavorText)
+        {
+            return new(this) { FlavorText = flavorText };
         }
 
          // Begin CD - Character Records

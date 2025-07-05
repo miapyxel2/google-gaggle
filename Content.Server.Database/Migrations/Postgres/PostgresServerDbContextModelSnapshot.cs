@@ -562,7 +562,21 @@ namespace Content.Server.Database.Migrations.Postgres
 
                     b.ToTable("ban_template", (string)null);
                 });
-             modelBuilder.Entity("Content.Server.Database.CDModel+CDProfile", b =>
+
+            modelBuilder.Entity("Content.Server.Database.Blacklist", b =>
+                {
+                    b.Property<Guid>("UserId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid")
+                        .HasColumnName("user_id");
+
+                    b.HasKey("UserId")
+                        .HasName("PK_blacklist");
+
+                    b.ToTable("blacklist", (string)null);
+                });
+
+            modelBuilder.Entity("Content.Server.Database.CDModel+CDProfile", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -575,9 +589,9 @@ namespace Content.Server.Database.Migrations.Postgres
                         .HasColumnType("jsonb")
                         .HasColumnName("character_records");
 
-                    b.Property<float>("Height")
-                        .HasColumnType("real")
-                        .HasColumnName("height");
+                    b.Property<string>("CustomSpeciesName")
+                        .HasColumnType("text")
+                        .HasColumnName("custom_species_name");
 
                     b.Property<int>("ProfileId")
                         .HasColumnType("integer")
@@ -633,19 +647,6 @@ namespace Content.Server.Database.Migrations.Postgres
                         .HasDatabaseName("IX_cd_character_record_entries_cd_character_record_entries_id");
 
                     b.ToTable("cd_character_record_entries", (string)null);
-                });
-
-            modelBuilder.Entity("Content.Server.Database.Blacklist", b =>
-                {
-                    b.Property<Guid>("UserId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid")
-                        .HasColumnName("user_id");
-
-                    b.HasKey("UserId")
-                        .HasName("PK_blacklist");
-
-                    b.ToTable("blacklist", (string)null);
                 });
 
             modelBuilder.Entity("Content.Server.Database.ConnectionLog", b =>
@@ -1727,7 +1728,19 @@ namespace Content.Server.Database.Migrations.Postgres
                     b.Navigation("Round");
                 });
 
-              modelBuilder.Entity("Content.Server.Database.CDModel+CDProfile", b =>
+            modelBuilder.Entity("Content.Server.Database.Antag", b =>
+                {
+                    b.HasOne("Content.Server.Database.Profile", "Profile")
+                        .WithMany("Antags")
+                        .HasForeignKey("ProfileId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("FK_antag_profile_profile_id");
+
+                    b.Navigation("Profile");
+                });
+
+            modelBuilder.Entity("Content.Server.Database.CDModel+CDProfile", b =>
                 {
                     b.HasOne("Content.Server.Database.Profile", "Profile")
                         .WithOne("CDProfile")
@@ -1749,18 +1762,6 @@ namespace Content.Server.Database.Migrations.Postgres
                         .HasConstraintName("FK_cd_character_record_entries_cdprofile_cdprofile_id");
 
                     b.Navigation("CDProfile");
-                });
-
-            modelBuilder.Entity("Content.Server.Database.Antag", b =>
-                {
-                    b.HasOne("Content.Server.Database.Profile", "Profile")
-                        .WithMany("Antags")
-                        .HasForeignKey("ProfileId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired()
-                        .HasConstraintName("FK_antag_profile_profile_id");
-
-                    b.Navigation("Profile");
                 });
 
             modelBuilder.Entity("Content.Server.Database.ConnectionLog", b =>
