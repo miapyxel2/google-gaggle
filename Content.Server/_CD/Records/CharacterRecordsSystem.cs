@@ -80,6 +80,7 @@ public sealed class CharacterRecordsSystem : EntitySystem
             jobIcon: jobPrototype.Icon,
             gender: profile.Gender,
             sex: profile.Sex,
+            height: profile.Height,
             fingerprint: fingerprintComponent?.Fingerprint,
             dna: dnaComponent?.DNA,
             owner: player);

@@ -44,7 +44,7 @@ public sealed partial class RecordEditorGui : Control
 
             _profileEditor.FindControl<Slider>("HeightSlider").Value = newHeight;
             _profileEditor.SetCharacterHeight(newHeight);
-            UpdateRecords(Records.WithHeight(newHeight));
+            // UpdateRecords(Records.WithHeight(newHeight));
         };
 
         WeightEdit.OnTextChanged += args =>

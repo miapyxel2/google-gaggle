@@ -18,6 +18,7 @@ public sealed class FullCharacterRecords(
     string species,
     Gender gender,
     Sex sex,
+    int height,
     string? fingerprint,
     string? dna,
     EntityUid? owner = null)
@@ -74,6 +75,12 @@ public sealed class FullCharacterRecords(
     /// </summary>
     [ViewVariables]
     public Sex Sex = sex;
+
+    /// <summary>
+    ///     Height tied to this record.
+    /// </summary>
+    [ViewVariables]
+    public int Height = height;
 
     [ViewVariables]
     public string? Fingerprint = fingerprint;
